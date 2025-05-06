@@ -2,11 +2,10 @@ package by.bsuir.navigation.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data 
-public class RouteWaypoint {
+public class RouteImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,6 +13,5 @@ public class RouteWaypoint {
     @OneToOne
     private Route route;
 
-    private Double latitude;
-    private Double longitude;
+    private byte[] image;
 }

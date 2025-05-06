@@ -1,0 +1,15 @@
+spring:
+  liquibase:
+    enabled: false
+  application:
+    name: navigation
+  server:
+    port: 8081
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    url: jdbc:postgresql://localhost:5432/navigation
+    username: postgres
+    password: root
+
