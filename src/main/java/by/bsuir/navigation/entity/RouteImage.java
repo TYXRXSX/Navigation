@@ -10,7 +10,8 @@ public class RouteImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "route_id")
     private Route route;
 
     private byte[] image;
