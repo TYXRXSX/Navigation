@@ -1,9 +1,7 @@
 package by.bsuir.navigation.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import by.bsuir.navigation.enums.Role;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -13,8 +11,10 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String login;
+    private String username;
     private String email;
     private String passwordHash;
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
     private byte[] avatar;
 }
