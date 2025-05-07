@@ -39,7 +39,7 @@ public class AuthController {
     public TokenDTO login(@RequestBody AuthDTO authDTO) {
         Authentication auth = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authDTO.getUsername(), authDTO.getPassword()));
-        return jwtUtil.generateToken(authDTO.getUsername());
+        return jwtUtil.generateToken(auth.getName(), auth.getAuthorities().toString());
     }
 }
 

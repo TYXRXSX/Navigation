@@ -4,6 +4,7 @@ import by.bsuir.navigation.entity.Users;
 import by.bsuir.navigation.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +37,10 @@ public class AuthService implements UserDetailsService {
         Users user = repo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPasswordHash(), Collections.emptyList());
+                user.getUsername(),
+                user.getPasswordHash(),
+                List.of(new SimpleGrantedAuthority(user.getRole().toString()))
+        );
     }
 }
 
