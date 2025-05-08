@@ -2,9 +2,11 @@ package by.bsuir.navigation.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
-@Data 
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class RouteImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,4 +17,12 @@ public class RouteImage {
     private Route route;
 
     private byte[] image;
+
+    public RouteImage(byte[] image) {
+        this.image = image;
+    }
+
+    public RouteImage() {
+
+    }
 }

@@ -1,11 +1,14 @@
 package by.bsuir.navigation.dto.crud.route;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@Builder
 public class RouteGetDTO {
+    private Long id;
     private String name;
     private Double latitude;
     private Double longitude;
@@ -16,6 +19,6 @@ public class RouteGetDTO {
     private String difficulty;
     private String duration;
     private String weather;
-    private List<RouteImage> images;
+    private List<RouteImageDTO> images;
     private List<RouteWaypointDTO> waypoints;
 }

@@ -1,11 +1,14 @@
 package by.bsuir.navigation.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class RouteWaypoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,5 +20,14 @@ public class RouteWaypoint {
 
     private Double latitude;
     private Double longitude;
+
+    public RouteWaypoint(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public RouteWaypoint() {
+
+    }
 }
 

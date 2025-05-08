@@ -77,5 +77,19 @@ public class Route {
         favoritedBy.remove(user);
         user.getFavoriteRoutes().remove(this);
     }
+
+    public void removeAllWaypoints() {
+        for (RouteWaypoint waypoint : new ArrayList<>(routeWaypoints)) {
+            removeWaypoint(waypoint);
+        }
+        routeWaypoints.clear();
+    }
+
+    public void removeAllImages() {
+        for (RouteImage image : new ArrayList<>(routeImages)) {
+            removeRouteImage(image);
+        }
+        routeImages.clear();
+    }
 }
 

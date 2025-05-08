@@ -16,6 +16,6 @@ public class RoutePostDTO {
     private String difficulty;
     private String duration;
     private String weather;
-    private List<RouteImage> images;
+    private List<RouteImageDTO> images;
     private List<RouteWaypointDTO> waypoints;
 }

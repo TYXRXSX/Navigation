@@ -1,8 +1,10 @@
 package by.bsuir.navigation.dto.crud.route;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class RouteImage {
+@AllArgsConstructor
+public class RouteImageDTO {
     private byte[] image;
 }

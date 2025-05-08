@@ -1,13 +1,17 @@
 package by.bsuir.navigation.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReviewImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,4 +22,8 @@ public class ReviewImage {
     private Review review;
 
     private byte[] image;
+
+    public ReviewImage(byte[] image) {
+        this.image = image;
+    }
 }

@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/route")
 @RequiredArgsConstructor
@@ -16,8 +18,8 @@ public class RouteController {
     private final RouteService routeService;
 
     @GetMapping("/")
-    public RouteGetDTO getAllRoutes() {
-        return routeService.getRoute(1L);
+    public List<RouteGetDTO> getAllRoutes() {
+        return routeService.getAllRoutes();
     }
 
     @GetMapping("/{id}")
