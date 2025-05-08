@@ -2,6 +2,7 @@ package by.bsuir.navigation.controller;
 
 import by.bsuir.navigation.dto.auth.RegisterDTO;
 import by.bsuir.navigation.dto.crud.route.RouteGetDTO;
+import by.bsuir.navigation.dto.crud.user.UserChangeDataDTO;
 import by.bsuir.navigation.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,11 @@ public class UserController {
     @GetMapping("/favorite")
     public List<RouteGetDTO> getFavoriteRoutes() {
         return userService.getFavoriteRoutes();
+    }
+
+    @PostMapping("/information/change")
+    public void changePersonalData(@RequestBody UserChangeDataDTO userChangeDataDTO) {
+        userService.changePersonalData(userChangeDataDTO);
     }
 
 }

@@ -4,6 +4,7 @@ import by.bsuir.navigation.dto.auth.RegisterDTO;
 import by.bsuir.navigation.dto.crud.route.RouteGetDTO;
 import by.bsuir.navigation.dto.crud.route.RouteImageDTO;
 import by.bsuir.navigation.dto.crud.route.RouteWaypointDTO;
+import by.bsuir.navigation.dto.crud.user.UserChangeDataDTO;
 import by.bsuir.navigation.entity.Route;
 import by.bsuir.navigation.entity.Users;
 import by.bsuir.navigation.repo.RouteRepository;
@@ -81,5 +82,14 @@ public class UserService{
                 .build();
 
         return routeGetDTO;
+    }
+
+    public void changePersonalData(UserChangeDataDTO userChangeDataDTO){
+        Users user = findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        user.setAvatar(userChangeDataDTO.getAvatar());
+        user.setEmail(userChangeDataDTO.getEmail());
+        user.setName(userChangeDataDTO.getName());
+        user.setPasswordHash(passwordEncoder.encode(userChangeDataDTO.getPassword()));
+        userRepository.save(user);
     }
 }
