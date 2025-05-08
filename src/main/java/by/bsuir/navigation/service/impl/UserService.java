@@ -1,7 +1,9 @@
 package by.bsuir.navigation.service.impl;
 
 import by.bsuir.navigation.dto.auth.RegisterDTO;
+import by.bsuir.navigation.entity.Route;
 import by.bsuir.navigation.entity.Users;
+import by.bsuir.navigation.repo.RouteRepository;
 import by.bsuir.navigation.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,9 +15,10 @@ public class UserService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RouteRepository routeRepository;
 
     public Users findByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
+        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public void register(RegisterDTO registerDTO) {
@@ -29,6 +32,11 @@ public class UserService{
         user.setName(registerDTO.getName());
         user.setAvatar(registerDTO.getAvatar());
         userRepository.save(user);
+    }
+
+    public void addToFavorite(Long id){
+        Route route = routeRepository.findById(id).orElseThrow(() -> new RuntimeException("Route not found"));
+//        route.addFavoritedBy();
     }
 
 }

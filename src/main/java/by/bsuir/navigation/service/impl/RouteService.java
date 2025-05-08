@@ -22,7 +22,7 @@ public class RouteService implements CrudService {
     private final RouteRepository routeRepository;
 
     public RouteGetDTO getRoute(Long id) {
-        Route route = routeRepository.findById(id).get();
+        Route route = routeRepository.findById(id).orElseThrow(() -> new RuntimeException("Route not found"));
         RouteGetDTO routeGetDTO = mapToDTO(route);
 
         return routeGetDTO;

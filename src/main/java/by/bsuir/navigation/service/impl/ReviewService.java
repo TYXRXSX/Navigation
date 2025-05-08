@@ -24,12 +24,12 @@ public class ReviewService implements CrudService {
     private final RouteRepository routeRepository;
 
     public List<ReviewGetDTO> getReviewsByRouteId(Long id) {
-        Route route = routeRepository.findById(id).get();
+        Route route = routeRepository.findById(id).orElseThrow(() -> new RuntimeException("Route not found"));
         return route.getReviews().stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
     public void saveReview(ReviewPostDTO reviewPostDTO) {
-        Route route = routeRepository.findById(reviewPostDTO.getRouteId()).get();
+        Route route = routeRepository.findById(reviewPostDTO.getRouteId()).orElseThrow(() -> new RuntimeException("Route not found"));
         route.addReview(Review.builder()
                 .rating(reviewPostDTO.getRating())
                 .date(reviewPostDTO.getDate())
@@ -41,7 +41,7 @@ public class ReviewService implements CrudService {
     }
 
     public void putReview(ReviewPostDTO reviewPostDTO, Long id) {
-        Review review = reviewRepository.findById(id).get();
+        Review review = reviewRepository.findById(id).orElseThrow(() -> new RuntimeException("Review not found"));
         review.removeAllImages();
         review.setRating(reviewPostDTO.getRating());
         review.setDate(reviewPostDTO.getDate());
