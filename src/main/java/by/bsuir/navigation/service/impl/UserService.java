@@ -1,13 +1,21 @@
 package by.bsuir.navigation.service.impl;
 
 import by.bsuir.navigation.dto.auth.RegisterDTO;
+import by.bsuir.navigation.dto.crud.route.RouteGetDTO;
+import by.bsuir.navigation.dto.crud.route.RouteImageDTO;
+import by.bsuir.navigation.dto.crud.route.RouteWaypointDTO;
 import by.bsuir.navigation.entity.Route;
 import by.bsuir.navigation.entity.Users;
 import by.bsuir.navigation.repo.RouteRepository;
 import by.bsuir.navigation.repo.UserRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +44,42 @@ public class UserService{
 
     public void addToFavorite(Long id){
         Route route = routeRepository.findById(id).orElseThrow(() -> new RuntimeException("Route not found"));
-//        route.addFavoritedBy();
+        Users user = findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        user.addFavoriteRoute(route);
+        userRepository.save(user);
+        routeRepository.save(route);
     }
 
+    public void removeFromFavorite(Long id){
+        Route route = routeRepository.findById(id).orElseThrow(() -> new RuntimeException("Route not found"));
+        Users user = findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        user.removeFavoriteRoute(route);
+        userRepository.save(user);
+        routeRepository.save(route);
+    }
+
+    public List<RouteGetDTO> getFavoriteRoutes(){
+        Users user = findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        return user.getFavoriteRoutes().stream().map(route -> mapToDTO(route)).collect(Collectors.toList());
+    }
+
+    private RouteGetDTO mapToDTO(Route route) {
+        RouteGetDTO routeGetDTO = RouteGetDTO.builder()
+                .id(route.getId())
+                .description(route.getDescription())
+                .weather(route.getWeather())
+                .difficulty(route.getDifficulty())
+                .duration(route.getDuration())
+                .type(route.getType())
+                .name(route.getName())
+                .latitude(route.getLatitude())
+                .longitude(route.getLongitude())
+                .surface(route.getSurface())
+                .length(route.getLength())
+                .images(route.getRouteImages().stream().map(x -> new RouteImageDTO(x.getImage())).collect(Collectors.toList()))
+                .waypoints(route.getRouteWaypoints().stream().map(x -> new RouteWaypointDTO(x.getLatitude(), x.getLongitude())).toList())
+                .build();
+
+        return routeGetDTO;
+    }
 }

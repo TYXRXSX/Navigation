@@ -2,11 +2,9 @@ package by.bsuir.navigation.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -35,7 +33,7 @@ public class Route {
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "favoriteRoutes")
+    @ManyToMany(mappedBy = "favoriteRoutes", cascade = CascadeType.ALL)
     private Set<Users> favoritedBy = new HashSet<>();
 
     public void addWaypoint(RouteWaypoint waypoint) {
@@ -70,12 +68,12 @@ public class Route {
 
     public void addFavoritedBy(Users user) {
         favoritedBy.add(user);
-        user.getFavoriteRoutes().add(this);
+//        user.getFavoriteRoutes().add(this);
     }
 
     public void removeFavoritedBy(Users user) {
         favoritedBy.remove(user);
-        user.getFavoriteRoutes().remove(this);
+//        user.getFavoriteRoutes().remove(this);
     }
 
     public void removeAllWaypoints() {
@@ -90,6 +88,18 @@ public class Route {
             removeRouteImage(image);
         }
         routeImages.clear();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Route route = (Route) o;
+        return Objects.equals(id, route.id) && Objects.equals(name, route.name) && Objects.equals(latitude, route.latitude) && Objects.equals(longitude, route.longitude) && Objects.equals(description, route.description) && Objects.equals(type, route.type) && Objects.equals(surface, route.surface) && Objects.equals(length, route.length) && Objects.equals(difficulty, route.difficulty) && Objects.equals(duration, route.duration) && Objects.equals(weather, route.weather) && Objects.equals(routeImages, route.routeImages) && Objects.equals(routeWaypoints, route.routeWaypoints) && Objects.equals(reviews, route.reviews) && Objects.equals(favoritedBy, route.favoritedBy);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, latitude, longitude, description, type, surface, length, difficulty, duration, weather);
     }
 }
 

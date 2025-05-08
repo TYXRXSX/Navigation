@@ -4,6 +4,7 @@ import by.bsuir.navigation.dto.auth.RegisterDTO;
 import by.bsuir.navigation.dto.crud.route.RouteGetDTO;
 import by.bsuir.navigation.dto.crud.route.RoutePostDTO;
 import by.bsuir.navigation.service.impl.RouteService;
+import by.bsuir.navigation.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 public class RouteController {
 
     private final RouteService routeService;
+    private final UserService userService;
 
     @GetMapping("/")
     public List<RouteGetDTO> getAllRoutes() {
@@ -40,5 +42,15 @@ public class RouteController {
     @DeleteMapping("/{id}")
     public void deleteRoute(@PathVariable Long id) {
         routeService.deleteRoute(id);
+    }
+
+    @PostMapping("/{id}/favorite/add")
+    public void addToFavorite(@PathVariable Long id) {
+        userService.addToFavorite(id);
+    }
+
+    @PostMapping("/{id}/favorite/remove")
+    public void removeFromFavorite(@PathVariable Long id) {
+        userService.removeFromFavorite(id);
     }
 }
